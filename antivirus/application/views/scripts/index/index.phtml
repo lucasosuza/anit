@@ -1,0 +1,83 @@
+    <div class="hero-unit center" style="background-color: #fff;">
+    	<img alt="VirusTeste" src="<?php echo IMG_DIR;?>/logo.jpg" />
+    	<div class="center" id="textosobre">
+		<br/>
+		O VírusTeste é um serviço gratuito para análise de arquivos suspeitos que
+		facilita a detecção de vírus, worms, trojans e todos os tipos de malware.
+		
+		</div>
+    </div>
+    
+    <div>
+		<form id="formulario" action="<?php echo SYSTEM_PATH;?>/file/analise" method="post" enctype="multipart/form-data" class="mainForm" target="upload">
+			<div>
+				<input type="file" id="file_upload" name="file_upload" />
+			</div>
+		</form>
+    </div>  
+    <div class="center">
+		Tamanho máximo do arquivo: 32MB
+	</div>
+	
+	<div class="center">
+		<input type="button" class="btn scan btn-primary" value="Enviar Arquivo" onclick="submit();" />
+	</div>
+	  
+    <iframe style="display: none;" id="upload" name="upload"></iframe>
+
+	<script>
+	var retorno;
+	
+	$(function(){
+		$('#file_upload').customFileInput();	
+		$('#upload').load(function(){
+			$('#dialog').modal('hide');
+			retorno = $('#upload').contents().find('body').html();
+			if (retorno != '') {
+				eval('var retorno = '+retorno+';');
+				if (!retorno.file_exists) {
+					window.location = '<?php echo SYSTEM_PATH;?>/file/view/id/' + retorno.sha256;
+				} else {
+					$('#date_analysis').html(retorno.date_analysis);
+					$('#ratio').html(retorno.ratio);
+					$('#view_last_link').attr('href', '<?php echo SYSTEM_PATH;?>/file/view/id/' + retorno.sha256);
+					$('#reanalysis_link').attr('href', '<?php echo SYSTEM_PATH;?>/file/reanalysis/id/' + retorno.sha256 + '/name/' + retorno.file_name);
+					$('#dialogFileExists').modal();
+				}
+			}
+		});
+	});
+	
+	function submit()
+	{
+		$('#dialog').modal();
+		$('#formulario').submit();
+	}
+	</script>
+
+	<div class="modal hide" id="dialog">
+	    <div class="modal-header">
+	    <h4>Fazendo upload do arquivo</h4>
+	    </div>
+	    <div class="modal-body center">
+	    <p>
+	    	<img src="<?php echo IMG_DIR;?>/loader.gif" />
+	    </p>
+	    </div>
+	</div>
+	
+	<div class="modal hide" id="dialogFileExists">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal">×</button>
+			<h3>Este arquivo já foi analisado</h3>
+		</div>
+		<div class="modal-body">
+			<p>Este arquivo já foi analisado em <span id="date_analysis" style="font-weight:bold;"></span>.</p>
+			<p>Detecção <span id="ratio"></span>.</p>
+			<p>Você pode ver a última análise deste arquivo ou fazer uma nova análise agora.</p>
+		</div>
+		<div class="modal-footer">
+			<a href="#" id="reanalysis_link" class="btn">Reanalisar</a>
+			<a href="#" id="view_last_link" class="btn btn-primary">Ver análise anterior</a>
+		</div>
+	</div>

@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>VírusTeste</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <link href="<?php echo CSS_DIR;?>/bootstrap.css" rel="stylesheet">
+    <style>
+      body {
+        padding-top: 60px;
+      }
+      
+		.customfile-input { position: absolute; height: 100px; cursor: pointer; background: transparent; border: 0; opacity: 0; -moz-opacity: 0; filter:progid:DXImageTransform.Microsoft.Alpha(opacity=0); z-index: 999;  }
+		.customfile { width: 600px; background: #fff; cursor: pointer; overflow: hidden; padding: 2px; border: 1px solid #cecece; -moz-border-radius:7px; -webkit-border-radius:7px; border-radius:7px;  position: relative; left: 50%; margin-left: -300px; }
+		.customfile-disabled { opacity: .5; filter:progid:DXImageTransform.Microsoft.Alpha(opacity=0); cursor: default;  }
+		.customfile-feedback { display: block; margin: 1px 1px 1px 5px; font-size: 1.2em; color: #fff; font-style: italic; padding: .3em .6em; }
+		.customfile-feedback-populated { color: #999; font-style: normal; padding-left: 2px; }
+		.customfile-button { border: 1px solid #cecece; background: #333 url(<?php echo IMG_DIR;?>/bg-btn.png) bottom repeat-x;  color: #333; font-weight: bold; float: right; width: 80px; padding: .4em .6em;  text-align: center; text-decoration: none;  font-size: .9em; -moz-border-radius:5px; -webkit-border-radius:5px; border-radius:5px;  }
+		.customfile-hover .customfile-button, .customfile-focus .customfile-button  { color:#111; background: #aaa url(<?php echo IMG_DIR;?>/bg-btn.png) bottom repeat-x; border-color:#aaa;  padding: .4em .6em;  }
+		.customfile-focus .customfile-button { outline: 1px dotted #ccc;  }
+      
+      .center {
+		display: block;
+		margin-left: auto;
+		margin-right: auto;
+		text-align: center;
+		}
+		
+		.btn.scan {
+		    font-size: 16px;
+		    font-weight: bold;
+		    height: 50px;
+		    width: 170px;
+		    margin-top: 20px;
+		}
+		
+		.footer {
+		    width:100%;
+		    padding-bottom: 10px;
+		}
+		
+		#dialog {
+		    width: 260px;
+		    margin: -130px 0 0 -150px;
+		}
+		
+		.container {
+			width: 940px!important;
+		}
+		
+	   	div#textosobre {
+		    color: #808080;
+		    font-size: 15px;
+		    margin: 10px auto 0;
+		    text-align: left;
+		    width: 576px;
+		}
+		
+		.hero-unit {
+			padding-bottom: 30px;
+		}
+    </style>
+    
+    <link href="<?php echo CSS_DIR;?>/bootstrap-responsive.css" rel="stylesheet">
+    
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    
+    <link rel="shortcut icon" href="<?php echo SYSTEM_PATH;?>/public/ico/favicon.ico">
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="<?php echo SYSTEM_PATH;?>/public/ico/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="<?php echo SYSTEM_PATH;?>/public/ico/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="<?php echo SYSTEM_PATH;?>/public/ico/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" href="<?php echo SYSTEM_PATH;?>/public/ico/apple-touch-icon-57-precomposed.png">
+    
+    <script src="<?php echo JS_DIR;?>/jquery.js"></script>
+    <script src="<?php echo JS_DIR;?>/bootstrap-transition.js"></script>
+    <script src="<?php echo JS_DIR;?>/bootstrap-alert.js"></script>
+    <script src="<?php echo JS_DIR;?>/bootstrap-modal.js"></script>
+    <script src="<?php echo JS_DIR;?>/bootstrap-dropdown.js"></script>
+    <script src="<?php echo JS_DIR;?>/bootstrap-scrollspy.js"></script>
+    <script src="<?php echo JS_DIR;?>/bootstrap-tab.js"></script>
+    <script src="<?php echo JS_DIR;?>/bootstrap-tooltip.js"></script>
+    <script src="<?php echo JS_DIR;?>/bootstrap-popover.js"></script>
+    <script src="<?php echo JS_DIR;?>/bootstrap-button.js"></script>
+    <script src="<?php echo JS_DIR;?>/bootstrap-collapse.js"></script>
+    <script src="<?php echo JS_DIR;?>/bootstrap-carousel.js"></script>
+    <script src="<?php echo JS_DIR;?>/bootstrap-typeahead.js"></script>
+	<script src="<?php echo JS_DIR;?>/jquery.fileinput.js"></script>
+  </head>
+
+  <body>
+
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+
+          <div class="nav-collapse">
+            <ul class="nav">
+              <li class="active"><a href="#">Home</a></li>
+              <li><a href="#stat">Estatísticas</a></li>
+              <li><a href="#faq">FAQ</a></li>
+              <li><a href="#about">Sobre</a></li>
+              <li><a href="#contact">Contato</a></li>
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+    </div>
+
+    <div class="container" style="height: 500px;">
+		<?php echo $this->layout()->content; ?>
+    </div> <!-- /container -->
+
+    <br/><br/>
+	<!-- Footer -->
+	<div class="footer center">
+    	<span>&copy; Copyright 2012. Todos os direitos reservados.</span>
+    </div>	
+  </body>
+</html>

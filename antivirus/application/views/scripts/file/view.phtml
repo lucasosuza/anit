@@ -1,0 +1,124 @@
+<script>
+	$(function(){
+		var resultAnalysis = <?php echo $this->analisysJson; ?>;
+		updateInterface(resultAnalysis);
+		checkAnalysis();
+	});
+
+	function checkAnalysis()
+	{
+		var id_analysis    = '<?php echo $this->id_analysis; ?>';
+		var file           = '<?php echo $this->file->sha256;; ?>';
+		var totalAntivirus = <?php echo $this->active_antivirus; ?>;
+		
+
+		$.ajax({
+			  url: '<?php echo SYSTEM_PATH; ?>/file/get-analisys/id/' + file + '/analysis/' + id_analysis,
+			  success: function(data) {
+			    eval('var resultAnalysis = '+data+';');
+			    updateInterface(resultAnalysis);
+
+			    if (totalAntivirus > resultAnalysis.length) {
+			    	setTimeout('checkAnalysis()', 1000);
+			    	$('#waiting').css('display', 'block');
+				} else {
+					$('#waiting').css('display', 'none');
+				}
+			  }
+		});
+	}
+
+	function updateInterface(resultAnalysis)
+	{
+		var ratio = 0;
+		for (var i=0; i<resultAnalysis.length; i++) {
+			if (resultAnalysis[i].result != '') {
+				$('#result_'+resultAnalysis[i].id_antivirus).html(resultAnalysis[i].result);
+				ratio++;
+			} else {
+				$('#result_'+resultAnalysis[i].id_antivirus).html('-');
+			}
+			$('#row_'+resultAnalysis[i].id_antivirus).show();
+		}
+		$('#ratio').html(ratio);
+	}
+</script>
+
+<style>
+table th, table td {
+	padding: 8px 10px 9px;
+}
+
+#waiting {
+	display:none;
+}
+</style>
+
+<p>
+	<img alt="VirusTeste" src="<?php echo IMG_DIR;?>/logo.jpg" width="230px;" />
+</p>
+
+<div class="well" style="background-color: #ffffff;">
+
+	<div id="waiting" class="alert-info alert" style="margin:5px;">
+	  <img src="<?php echo IMG_DIR;?>/waiting.gif" style="float:left; padding: 1px 10px 0 0;"> 
+	  Por favor aguarde enquanto seu arquivo está sendo analizado.
+	</div>
+
+    <table>
+    <tbody>
+	    <tr>
+		    <td width="120px;">SHA256:</td>
+		    <td><?php echo $this->file->sha256; ?></td>
+	    </tr>
+	    <tr>
+		    <td width="100px;">SHA1:</td>
+		    <td><?php echo $this->file->sha1; ?></td>
+	    </tr>
+	    <tr>
+		    <td width="100px;">MD5:</td>
+		    <td><?php echo $this->file->md5; ?></td>
+	    </tr>
+	    <tr>
+		    <td width="100px;">Tamanho:</td>
+		    <td><?php echo Utils::formatBytes($this->file->file_size); ?></td>
+	    </tr>
+	    <tr>
+		    <td width="100px;">Nome:</td>
+		    <td><?php echo $this->file->file_name; ?></td>
+	    </tr>
+	    <tr>
+		    <td width="100px;">Tipo:</td>
+		    <td><?php echo $this->file->file_type; ?></td>
+	    </tr>
+	    <tr>
+		    <td width="100px;">Detecção:</td>
+		    <td><span id="ratio">0</span> / <?php echo $this->active_antivirus; ?></td>
+	    </tr>
+	    <tr>
+		    <td width="100px;">Data da análise:</td>
+		    <td><?php echo $this->date_analysis; ?></td>
+	    </tr>
+    </tbody>
+    </table>
+</div>
+
+
+<table class="table table-bordered table-striped">
+	<thead>
+		<tr>
+			<th width="50%">Antivírus</th>
+			<th width="30%">Resultado</th>
+			<th width="20%">Update</th>
+		</tr>
+	</thead>
+	<tbody>
+	<?php foreach($this->antiviruses as $antivirus): ?>
+		<tr id="row_<?php echo $antivirus->id; ?>" style="display: none;">
+			<td><?php echo $antivirus->name; ?></td>
+			<td><span id="result_<?php echo $antivirus->id; ?>"></span></td>
+			<td><?php echo $antivirus->last_update; ?></td>
+		</tr>
+	<?php endforeach; ?>
+	</tbody>
+</table>
